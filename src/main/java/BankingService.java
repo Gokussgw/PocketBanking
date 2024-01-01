@@ -21,5 +21,15 @@ public class BankingService implements Subject {
         }
     }
 
-    // Other banking methods
+
+    public void notifyAllCustomers() {
+        List<Customer> customers = new AccountDAO().getAllCustomers();
+        for (Customer customer : customers) {
+            attach(customer);
+        }
+        notifyObservers();
+        // Detach customers after notification to avoid keeping them in memory
+        customers.forEach(this::detach);
+    }
 }
+
