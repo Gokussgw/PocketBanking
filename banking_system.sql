@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 01, 2024 at 07:38 PM
+-- Generation Time: Jan 01, 2024 at 08:40 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -44,8 +44,13 @@ INSERT INTO `accounts` (`id`, `customer_id`, `account_type`, `balance`) VALUES
 (3, 2, 'Savings', 10000.00),
 (4, 3, 'Checking', 3500.00),
 (5, 4, 'Savings', 7500.00),
-(6, 5, 'Checking', 4500.00),
-(7, 6, 'Savings', 6000.00);
+(6, 5, 'Checking', 4612.00),
+(7, 6, 'Savings', 6000.00),
+(9, 1, 'SAVINGS', 0.00),
+(10, 1, 'CHECKING', 0.00),
+(11, 1, 'SAVINGS', 0.00),
+(12, 1, 'CHECKING', 0.00),
+(13, 1, 'SAVINGS', 0.00);
 
 -- --------------------------------------------------------
 
@@ -69,7 +74,10 @@ INSERT INTO `customers` (`id`, `name`, `email`) VALUES
 (3, 'Bob Johnson', 'bob.johnson@example.com'),
 (4, 'Eva Anderson', 'eva.anderson@example.com'),
 (5, 'Michael Clark', 'michael.clark@example.com'),
-(6, 'Sophia White', 'sophia.white@example.com');
+(6, 'Sophia White', 'sophia.white@example.com'),
+(7, 'hehe', 'boi'),
+(8, 'hi', 'bio'),
+(10, 'hehe boi', 'lmao@lol.hehe');
 
 -- --------------------------------------------------------
 
@@ -135,13 +143,13 @@ ALTER TABLE `transactions`
 -- AUTO_INCREMENT for table `accounts`
 --
 ALTER TABLE `accounts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `transactions`
