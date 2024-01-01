@@ -6,9 +6,38 @@ import java.sql.SQLException;
 public class AccountDAO {
 
     public void createAccount(Account account) {
-        // Implement the logic to create an account in the database
+        try (Connection connection = DatabaseManager.getConnection()) {
+            // Assuming 'id' is auto-increment, so it's not included in the insert statement
+            String sql = "INSERT INTO accounts (customer_id, account_type, balance) VALUES (?, ?, ?)";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                // For now, setting a placeholder for customer_id, update it as per your requirement
+                statement.setInt(1, 1); // Placeholder, set the actual customer_id
+                statement.setString(2, account.getAccountType());
+                statement.setDouble(3, account.getBalance());
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // In production, use proper logging
+        }
     }
 
+
+    public Customer getCustomerDetails(int customerId) {
+        try (Connection connection = DatabaseManager.getConnection()) {
+            String sql = "SELECT name, email FROM customers WHERE id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, customerId);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        return new Customer(customerId, resultSet.getString("name"), resultSet.getString("email"));
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Proper logging is recommended in production
+        }
+        return null; // Return null if customer is not found or an exception occurs
+    }
     public Account getAccount(String accountId) {
         // Implement the logic to retrieve an account from the database
         return null;

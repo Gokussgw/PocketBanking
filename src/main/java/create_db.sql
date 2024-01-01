@@ -1,3 +1,4 @@
+
 CREATE DATABASE IF NOT EXISTS banking_system;
 
 USE banking_system;
