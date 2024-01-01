@@ -1,8 +1,8 @@
-package sda;
+package sda_old;
 
-import sda.Controller.*;
-import sda.Model.*;
-import sda.View.*;
+import sda_old.Controller.*;
+import sda_old.Model.*;
+import sda_old.View.*;
 
 public class Main {
     public static void main(String[] args) {

@@ -1,7 +1,7 @@
-package sda.Controller;
+package sda_old.Controller;
 
-import sda.Model.Account;
-import sda.View.LoginView;
+import sda_old.Model.Account;
+import sda_old.View.LoginView;
 
 public class LoginController {
     private Account model = new Account();

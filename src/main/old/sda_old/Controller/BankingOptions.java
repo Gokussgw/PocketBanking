@@ -1,8 +1,8 @@
-package sda.Controller;
+package sda_old.Controller;
 import java.sql.*;
 import java.util.Scanner;
 
-import sda.Model.Account;
+import sda_old.Model.Account;
 
 public class BankingOptions {
     private Account model = new Account();
