@@ -1,7 +1,9 @@
+import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         Scanner scanner = new Scanner(System.in);
         AccountDAO accountDAO = new AccountDAO();
         BankingService bankingService = new BankingService();
@@ -15,7 +17,9 @@ public class Main {
             System.out.println("5. Deposit");
             System.out.println("6. Withdraw");
             System.out.println("7. Create New Customer");
-            System.out.println("8. Exit");
+            System.out.println("8. Make a transaction");
+            System.out.println("9. View transaction history");
+            System.out.println("10. Exit");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
 
@@ -41,6 +45,31 @@ public class Main {
                     handleNewCustomer(scanner, accountDAO);
                     break;
                 case 8:
+                    System.out.print("Enter Source Customer ID: ");
+                    int fromCustomerId = scanner.nextInt();
+                    System.out.print("Enter Source Account Type (SAVINGS/CHECKING): ");
+                    String fromAccountType = scanner.next().toUpperCase();
+
+                    System.out.print("Enter Target Customer ID: ");
+                    int toCustomerId = scanner.nextInt();
+                    System.out.print("Enter Target Account Type (SAVINGS/CHECKING): ");
+                    String toAccountType = scanner.next().toUpperCase();
+
+                    System.out.print("Enter Amount to Transfer: ");
+                    double amount = scanner.nextDouble();
+
+                    accountDAO.transferFunds(fromCustomerId, fromAccountType, toCustomerId, toAccountType, amount);
+                    System.out.println("Transferred " + amount + " from " + fromAccountType + " account of customer ID " + fromCustomerId + " to " + toAccountType + " account of customer ID " + toCustomerId);
+                    break;
+                case 9:
+                    System.out.print("Enter Customer ID for Transaction History: ");
+                    int customerId = scanner.nextInt();
+                    List<Transaction> transactions = accountDAO.getTransactionHistory(customerId);
+                    if (transactions.isEmpty()) {
+                        System.out.println("No transactions found for customer ID " + customerId);
+                    } else for (Transaction transaction : transactions) transaction.print();
+                    break;
+                case 10:
                     System.out.println("Exiting Banking System. Goodbye!");
                     scanner.close();
                     return;

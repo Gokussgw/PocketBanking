@@ -24,6 +24,113 @@ public class AccountDAO {
     }
 
 
+
+    public void transferFunds(int fromCustomerId, String fromAccountType, int toCustomerId, String toAccountType, double amount) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = DatabaseManager.getConnection();
+            connection.setAutoCommit(false); // Start transaction
+
+            int fromAccountId = getAccountId(connection, fromCustomerId, fromAccountType);
+            int toAccountId = getAccountId(connection, toCustomerId, toAccountType);
+
+            // Withdraw from the source account
+            if (!updateAccountBalance(connection, fromAccountId, -amount)) {
+                throw new SQLException("Failed to withdraw from account " + fromAccountId);
+            }
+            // Record withdrawal transaction
+            recordTransaction(connection, fromAccountId, "WITHDRAWAL", amount);
+
+            // Deposit to the target account
+            if (!updateAccountBalance(connection, toAccountId, amount)) {
+                throw new SQLException("Failed to deposit to account " + toAccountId);
+            }
+            // Record deposit transaction
+            recordTransaction(connection, toAccountId, "DEPOSIT", amount);
+
+            connection.commit(); // Commit transaction
+        } catch (SQLException e) {
+            if (connection != null) {
+                connection.rollback(); // Rollback in case of error
+            }
+            throw e;
+        } finally {
+            if (connection != null) {
+                connection.setAutoCommit(true); // Reset auto-commit
+                connection.close();
+            }
+        }
+    }
+
+    private void recordTransaction(Connection connection, int accountId, String type, double amount) throws SQLException {
+        String sql = "INSERT INTO transactions (account_id, type, amount) VALUES (?, ?, ?)";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, accountId);
+            statement.setString(2, type);
+            statement.setDouble(3, amount);
+            statement.executeUpdate();
+        }
+    }
+
+
+    private int getAccountId(Connection connection, int customerId, String accountType) throws SQLException {
+        String sql = "SELECT id FROM accounts WHERE customer_id = ? AND account_type = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, customerId);
+            statement.setString(2, accountType);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int accountId = resultSet.getInt("id");
+                    System.out.println("Fetched Account ID: " + accountId + " for Customer ID: " + customerId + " and Account Type: " + accountType);
+                    return accountId;
+                }
+            }
+        }
+        throw new SQLException("Account not found for customer: " + customerId + " and type: " + accountType);
+    }
+
+
+    private boolean updateAccountBalance(Connection connection, int accountId, double amount) throws SQLException {
+        String sql = "UPDATE accounts SET balance = balance + ? WHERE id = ? AND balance + ? >= 0";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setDouble(1, amount);
+            statement.setInt(2, accountId);
+            statement.setDouble(3, amount);
+            int affectedRows = statement.executeUpdate();
+            return affectedRows > 0;
+        }
+    }
+
+
+
+    public List<Transaction> getTransactionHistory(int customerId) {
+        List<Transaction> transactions = new ArrayList<>();
+        try (Connection connection = DatabaseManager.getConnection()) {
+            String sql = "SELECT t.id, t.account_id, t.type, t.amount, t.transaction_date " +
+                    "FROM transactions t " +
+                    "INNER JOIN accounts a ON t.account_id = a.id " +
+                    "WHERE a.customer_id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, customerId);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        Transaction transaction = new Transaction(
+                                resultSet.getInt("id"),
+                                resultSet.getInt("account_id"),
+                                resultSet.getString("type"),
+                                resultSet.getDouble("amount"),
+                                resultSet.getTimestamp("transaction_date")
+                        );
+                        transactions.add(transaction);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Proper error handling should be implemented
+        }
+        return transactions;
+    }
+
     public Customer getCustomerDetails(int customerId) {
         try (Connection connection = DatabaseManager.getConnection()) {
             String sql = "SELECT name, email FROM customers WHERE id = ?";
