@@ -1,3 +1,5 @@
+package factory;
+
 public interface Account {
     String getAccountId();
     String getAccountType();

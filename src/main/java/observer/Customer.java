@@ -1,3 +1,8 @@
+package observer;
+
+import database.DatabaseManager;
+import factory.Account;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +25,7 @@ public class Customer implements Observer {
         this.email = email;
     }
 
-    // Observer update method
+    // Observer.Observer update method
     @Override
     public void update(String message) {
         System.out.println("Hello " + name + ", " + message);

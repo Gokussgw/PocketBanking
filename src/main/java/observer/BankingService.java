@@ -1,3 +1,9 @@
+package observer;
+
+import observer.Customer;
+import observer.Observer;
+import observer.Subject;
+
 import java.util.ArrayList;
 import java.util.List;
 

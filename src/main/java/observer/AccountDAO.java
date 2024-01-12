@@ -1,3 +1,9 @@
+package observer;
+
+import database.DatabaseManager;
+import factory.Account;
+import observer.Customer;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -81,12 +87,12 @@ public class AccountDAO {
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     int accountId = resultSet.getInt("id");
-                    System.out.println("Fetched Account ID: " + accountId + " for Customer ID: " + customerId + " and Account Type: " + accountType);
+                    System.out.println("Fetched Factory.Account ID: " + accountId + " for observer.Customer ID: " + customerId + " and Factory.Account Type: " + accountType);
                     return accountId;
                 }
             }
         }
-        throw new SQLException("Account not found for customer: " + customerId + " and type: " + accountType);
+        throw new SQLException("Factory.Account not found for customer: " + customerId + " and type: " + accountType);
     }
 
 
@@ -170,7 +176,7 @@ public class AccountDAO {
                 statement.setInt(2, accountId);
                 int affectedRows = statement.executeUpdate();
                 if (affectedRows == 0) {
-                    System.out.println("Account not found or insufficient funds.");
+                    System.out.println("Factory.Account not found or insufficient funds.");
                 }
             }
         } catch (SQLException e) {
