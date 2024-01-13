@@ -1,4 +1,7 @@
-package factory;
+package businessLogic;
+
+import model.Account;
+import model.CheckingAccount;
 
 public class CheckingAccountFactory implements AccountFactory {
     @Override

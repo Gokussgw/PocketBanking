@@ -1,4 +1,4 @@
-package observer;
+package model;
 
 import java.sql.Timestamp;
 
@@ -21,7 +21,7 @@ public class Transaction {
 
     // Other methods if necessary
     public void print() {
-        System.out.println("observer.Transaction ID: " + transactionId + ", Factory.Account ID: " + accountId + ", Type: " + type + ", Amount: " + amount + ", Timestamp: " + timestamp);
+        System.out.println("model.Transaction ID: " + transactionId + ", Factory.Account ID: " + accountId + ", Type: " + type + ", Amount: " + amount + ", Timestamp: " + timestamp);
     }
 
 }

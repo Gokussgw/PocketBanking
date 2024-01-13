@@ -1,8 +1,8 @@
-package observer;
+package dataAccess;
 
-import database.DatabaseManager;
-import factory.Account;
-import observer.Customer;
+import model.Account;
+import model.Customer;
+import model.Transaction;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -87,7 +87,7 @@ public class AccountDAO {
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     int accountId = resultSet.getInt("id");
-                    System.out.println("Fetched Factory.Account ID: " + accountId + " for observer.Customer ID: " + customerId + " and Factory.Account Type: " + accountType);
+                    System.out.println("Fetched Factory.Account ID: " + accountId + " for model.Customer ID: " + customerId + " and Factory.Account Type: " + accountType);
                     return accountId;
                 }
             }

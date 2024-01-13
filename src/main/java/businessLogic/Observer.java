@@ -1,4 +1,4 @@
-package observer;
+package businessLogic;
 
 public interface Observer {
     void update(String message);

@@ -1,10 +1,12 @@
-import factory.Account;
-import factory.CheckingAccountFactory;
-import factory.SavingsAccountFactory;
-import observer.AccountDAO;
-import observer.BankingService;
-import observer.Customer;
-import observer.Transaction;
+package UI;
+
+import model.Account;
+import businessLogic.CheckingAccountFactory;
+import businessLogic.SavingsAccountFactory;
+import dataAccess.AccountDAO;
+import businessLogic.BankingService;
+import model.Customer;
+import model.Transaction;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -24,7 +26,7 @@ public class Main {
             System.out.println("4. View Accounts (Placeholder)");
             System.out.println("5. Deposit");
             System.out.println("6. Withdraw");
-            System.out.println("7. Create New observer.Customer");
+            System.out.println("7. Create New model.Customer");
             System.out.println("8. Make a transaction");
             System.out.println("9. View transaction history");
             System.out.println("10. Exit");
@@ -53,12 +55,12 @@ public class Main {
                     handleNewCustomer(scanner, accountDAO);
                     break;
                 case 8:
-                    System.out.print("Enter Source observer.Customer ID: ");
+                    System.out.print("Enter Source model.Customer ID: ");
                     int fromCustomerId = scanner.nextInt();
                     System.out.print("Enter Source Factory.Account Type (SAVINGS/CHECKING): ");
                     String fromAccountType = scanner.next().toUpperCase();
 
-                    System.out.print("Enter Target observer.Customer ID: ");
+                    System.out.print("Enter Target model.Customer ID: ");
                     int toCustomerId = scanner.nextInt();
                     System.out.print("Enter Target Factory.Account Type (SAVINGS/CHECKING): ");
                     String toAccountType = scanner.next().toUpperCase();
@@ -70,7 +72,7 @@ public class Main {
                     System.out.println("Transferred " + amount + " from " + fromAccountType + " account of customer ID " + fromCustomerId + " to " + toAccountType + " account of customer ID " + toCustomerId);
                     break;
                 case 9:
-                    System.out.print("Enter observer.Customer ID for observer.Transaction History: ");
+                    System.out.print("Enter model.Customer ID for model.Transaction History: ");
                     int customerId = scanner.nextInt();
                     List<Transaction> transactions = accountDAO.getTransactionHistory(customerId);
                     if (transactions.isEmpty()) {
@@ -88,12 +90,12 @@ public class Main {
     }
 
     private static void handleAccountCreation(Scanner scanner, AccountDAO accountDAO, int accountTypeChoice) {
-        System.out.print("Enter observer.Customer ID: ");
+        System.out.print("Enter model.Customer ID: ");
         int customerId = scanner.nextInt();
 
         Customer customer = accountDAO.getCustomerDetails(customerId);
         if (customer == null) {
-            System.out.println("observer.Customer not found!");
+            System.out.println("model.Customer not found!");
             return;
         }
 
@@ -126,9 +128,9 @@ public class Main {
 
     private static void handleNewCustomer(Scanner scanner, AccountDAO accountDAO) {
         scanner.nextLine(); // Consume the leftover newline
-        System.out.print("Enter observer.Customer Name: ");
+        System.out.print("Enter model.Customer Name: ");
         String name = scanner.nextLine();
-        System.out.print("Enter observer.Customer Email: ");
+        System.out.print("Enter model.Customer Email: ");
         String email = scanner.nextLine();
         accountDAO.createCustomer(name, email);
         System.out.println("New customer created: " + name);

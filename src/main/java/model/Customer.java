@@ -1,7 +1,7 @@
-package observer;
+package model;
 
-import database.DatabaseManager;
-import factory.Account;
+import dataAccess.DatabaseManager;
+import businessLogic.Observer;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

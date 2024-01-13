@@ -1,12 +1,10 @@
-package factory;
+package model;
 
-import factory.Account;
-
-public class SavingsAccount implements Account {
+public class CheckingAccount implements Account {
     private String accountId;
     private double balance;
 
-    public SavingsAccount(String accountId) {
+    public CheckingAccount(String accountId) {
         this.accountId = accountId;
         this.balance = 0.0;
     }
@@ -18,7 +16,7 @@ public class SavingsAccount implements Account {
 
     @Override
     public String getAccountType() {
-        return "SAVINGS";
+        return "CHECKING";
     }
 
     @Override

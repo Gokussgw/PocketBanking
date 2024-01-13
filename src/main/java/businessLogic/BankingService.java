@@ -1,8 +1,7 @@
-package observer;
+package businessLogic;
 
-import observer.Customer;
-import observer.Observer;
-import observer.Subject;
+import model.Customer;
+import dataAccess.AccountDAO;
 
 import java.util.ArrayList;
 import java.util.List;

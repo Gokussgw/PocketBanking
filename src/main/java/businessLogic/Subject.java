@@ -1,6 +1,4 @@
-package observer;
-
-import observer.Observer;
+package businessLogic;
 
 public interface Subject {
     void attach(Observer o);
